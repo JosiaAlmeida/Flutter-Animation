@@ -7,49 +7,46 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   var size = 400.0;
   var isLoading = false;
+
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: GestureDetector(
-        onTap: () {
-          isLoading = !isLoading;
-          setState(() {});
-        },
-        child: AnimatedContainer(
-            //Gerar curva na animação
-            curve: Curves.easeOut,
-            duration: Duration(milliseconds: 800),
-            width: isLoading ? 80 : 400,
-            height: 80,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(isLoading ? 40 : 20),
-              color: Colors.red,
-            ),
-            child: AnimatedCrossFade(
-              crossFadeState: isLoading
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: Duration(milliseconds: 500),
-              firstChild: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-              secondChild: Text(
-                "ENTRAR",
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            )),
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            controller.reverse();
+          },
+          child: AnimatedBuilder(
+              animation: controller,
+              builder: (context, snapshot) {
+                return Container(
+                  width: 100 * controller.value,
+                  height: 100 * controller.value,
+                  color: Colors.red,
+                );
+              }),
+        ),
       ),
-    ));
+    );
   }
 }

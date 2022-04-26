@@ -13,12 +13,14 @@ class _HomePageState extends State<HomePage>
   var isLoading = false;
 
   late final AnimationController controller;
+  late final Animation<double> squadSize;
 
   @override
   void initState() {
     super.initState();
     controller =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
+    squadSize = Tween<double>(begin: 100, end: 200).animate(controller);
     controller.forward();
   }
 
@@ -34,14 +36,14 @@ class _HomePageState extends State<HomePage>
       body: Center(
         child: GestureDetector(
           onTap: () {
-            controller.reverse();
+            controller.repeat(reverse: true);
           },
           child: AnimatedBuilder(
-              animation: controller,
+              animation: squadSize,
               builder: (context, snapshot) {
                 return Container(
-                  width: 100 * controller.value,
-                  height: 100 * controller.value,
+                  width: squadSize.value,
+                  height: squadSize.value,
                   color: Colors.red,
                 );
               }),

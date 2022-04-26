@@ -27,15 +27,20 @@ class _HomePageState extends State<HomePage> {
             width: isLoading ? 80 : 400,
             height: 80,
             alignment: Alignment.center,
-            color: Colors.red,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(isLoading ? 40 : 20),
+              color: Colors.red,
+            ),
             child: AnimatedCrossFade(
               crossFadeState: isLoading
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
-              duration: Duration(seconds: 1),
+              duration: Duration(milliseconds: 500),
               firstChild: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               ),
               secondChild: Text(
                 "ENTRAR",

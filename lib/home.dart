@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
           setState(() {});
         },
         child: AnimatedContainer(
+          //Gerar curva na animação
+          curve: Curves.bounceOut,
           duration: Duration(seconds: 2),
           width: increase ? 200 : size,
           height: increase ? 200 : size,

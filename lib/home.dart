@@ -36,7 +36,11 @@ class _HomePageState extends State<HomePage>
       body: Center(
         child: GestureDetector(
           onTap: () {
-            controller.repeat(reverse: true);
+            if (controller.value > 0) {
+              controller.reverse();
+            } else {
+              controller.forward();
+            }
           },
           child: AnimatedBuilder(
               animation: squadSize,
@@ -44,7 +48,11 @@ class _HomePageState extends State<HomePage>
                 return Container(
                   width: squadSize.value,
                   height: squadSize.value,
-                  color: Colors.red,
+                  alignment: squadSize.value > 0
+                      ? Alignment.centerRight
+                      : Alignment.center,
+                  color:
+                      Color.lerp(Colors.red, Colors.purple, controller.value),
                 );
               }),
         ),
